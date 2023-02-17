@@ -155,6 +155,8 @@ function! OpenTerminal()
 
     " set maps
 
+    execute "tnoremap <buffer> <C-h> <C-\\><C-n><C-w><C-h>"
+
     execute "tnoremap <buffer> <C-t> <C-\\><C-n>:q<CR>"
     startinsert!
   endif
