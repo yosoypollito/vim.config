@@ -53,23 +53,23 @@ let g:solarized_termcolors=256
 colorscheme gruvbox
 
 let g:lightline = {
-                  \ 'active': {
-                  \   'left': [ [ 'mode', 'paste' ],
-                  \             [ 'readonly','modified'], ['kitestatus']],
-                  \   'right': [['filename'], ['gitbranch']]
-                  \ },
-                  \ 'component':{
-                  \ 'Branch':'Branch'
-                  \},
-                  \ 'component_function':{
-                  \  'gitbranch': 'gitbranch#name'
-                  \},
-                  \'subseparator':{
-                  \'left':'',
-                  \'right':''
-                  \},
-                  \ 'colorscheme': 'gruvbox',
-                  \ }
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly','modified'], ['kitestatus']],
+      \   'right': [['filename'], ['gitbranch']]
+      \ },
+      \ 'component':{
+      \ 'Branch':'Branch'
+      \},
+      \ 'component_function':{
+      \  'gitbranch': 'gitbranch#name'
+      \},
+      \'subseparator':{
+      \'left':'',
+      \'right':''
+      \},
+      \ 'colorscheme': 'gruvbox',
+      \ }
 
 set noshowmode " stop showing mode under lightline
 
@@ -94,14 +94,14 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 inoremap <silent><expr> <TAB>
-                  \ coc#pum#visible() ? coc#pum#next(1) :
-                  \ CheckBackspace() ? "\<Tab>" :
-                  \ coc#refresh()
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 function! CheckBackspace() abort
-      let col = col('.') - 1
-      return !col || getline('.')[col - 1]  =~# '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -116,3 +116,45 @@ noremap <C-w>+ :resize +5<CR>
 noremap <C-w>- :resize -5<CR>
 noremap <C-w>< :vertical:resize -5<CR>
 noremap <C-w>> :vertical:resize +5<CR>
+
+
+" scrolls
+nnoremap <C-j> 10<C-e>
+nnoremap <C-k> 10<C-y>
+
+set shellcmdflag=-c
+
+
+" nnoremap <Leader>t :vsplit term %<CR>
+"Open terminal
+set splitright
+function! OpenTerminal()
+  "move to right buffer
+
+  execute "normal \<C-l>"
+  execute "normal \<C-l>"
+  execute "normal \<C-l>"
+  execute "normal \<C-l>"
+
+  let bufNum = bufnr("%")
+  let bufType = getbufvar(bufNum, "&buftype", "not found")
+
+  if bufType == "terminal"
+    " close terminal
+    execute "q"
+  else
+    " open terminal
+    execute "vsp term://bash"
+
+    " turn off numbers
+    execute "set nonu"
+    execute "set nornu"
+
+    silent au BufLeave <buffer> stopinser!
+    silent au BufWinEnter,WinEnter <buffer> startinsert!
+
+    startinsert!
+  endif
+endfunction
+
+nnoremap <C-t> :call OpenTerminal()<CR>
