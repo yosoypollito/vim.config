@@ -153,6 +153,9 @@ function! OpenTerminal()
     silent au BufLeave <buffer> stopinser!
     silent au BufWinEnter,WinEnter <buffer> startinsert!
 
+    " set maps
+
+    execute "tnoremap <buffer> <C-t> <C-\\><C-n>:q<CR>"
     startinsert!
   endif
 endfunction
