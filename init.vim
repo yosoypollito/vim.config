@@ -37,10 +37,8 @@ Plug 'shinchu/lightline-gruvbox.vim' " Theme gruvbox lightline
 "AutoComplete Tailwind
 Plug 'iamcco/coc-tailwindcss',  {'do': 'yarn install --frozen-lockfile && yarn run build'}
 
-"high lig errors
-
-" Vim Script
-Plug 'nvim-tree/nvim-web-devicons'
+"comenter
+Plug 'preservim/nerdcommenter'
 
 call plug#end()
 
@@ -54,12 +52,14 @@ colorscheme gruvbox
 
 let g:lightline = {
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly','modified'], ['kitestatus']],
-      \   'right': [['filename'], ['gitbranch']]
+      \   'left': [ ['mode', 'paste'],
+      \             [ 'readonly', 'modified']],
+      \   'right': [['filename'],
+      \             ['lineinfo', 'BranchIcon', 'gitbranch']]
       \ },
       \ 'component':{
-      \ 'Branch':'Branch'
+      \ 'BranchIcon':'',
+      \ 'lineinfo': '%3l:%-2v%<',
       \},
       \ 'component_function':{
       \  'gitbranch': 'gitbranch#name'
@@ -82,6 +82,10 @@ autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 let mapleader = " "
 
+" scrolls
+nnoremap <silent>J 10<C-e>
+nnoremap <silent>K 10<C-y>
+
 nmap <Leader>s <Plug>(easymotion-s2)
 nmap <Leader>nt :NvimTreeToggle<CR>
 nmap <Leader>hh :hi visual ctermbg=Grey ctermfg=Blue<CR>
@@ -94,14 +98,14 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+                  \ coc#pum#visible() ? coc#pum#next(1) :
+                  \ CheckBackspace() ? "\<Tab>" :
+                  \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -112,54 +116,50 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
 let g:python3_host_prog = 'D:\Programas windows\Python3.10\'
 
+" for comment
+filetype plugin on
+
 noremap <C-w>+ :resize +5<CR>
 noremap <C-w>- :resize -5<CR>
 noremap <C-w>< :vertical:resize -5<CR>
 noremap <C-w>> :vertical:resize +5<CR>
 
 
-" scrolls
-nnoremap <C-j> 10<C-e>
-nnoremap <C-k> 10<C-y>
-
-set shellcmdflag=-c
-
-
-" nnoremap <Leader>t :vsplit term %<CR>
-"Open terminal
 set splitright
+set shellcmdflag=-c
+"Open terminal
 function! OpenTerminal()
-  "move to right buffer
+      "move to right buffer
 
-  execute "normal \<C-l>"
-  execute "normal \<C-l>"
-  execute "normal \<C-l>"
-  execute "normal \<C-l>"
+      execute "normal \<C-l>"
+      execute "normal \<C-l>"
+      execute "normal \<C-l>"
+      execute "normal \<C-l>"
 
-  let bufNum = bufnr("%")
-  let bufType = getbufvar(bufNum, "&buftype", "not found")
+      let bufNum = bufnr("%")
+      let bufType = getbufvar(bufNum, "&buftype", "not found")
 
-  if bufType == "terminal"
-    " close terminal
-    execute "q"
-  else
-    " open terminal
-    execute "vsp term://bash"
+      if bufType == "terminal"
+            " close terminal
+            execute "q"
+      else
+            " open terminal
+            execute "vsp term://bash"
 
-    " turn off numbers
-    execute "set nonu"
-    execute "set nornu"
+            " turn off numbers
+            execute "set nonu"
+            execute "set nornu"
 
-    silent au BufLeave <buffer> stopinser!
-    silent au BufWinEnter,WinEnter <buffer> startinsert!
+            silent au BufLeave <buffer> stopinser!
+            silent au BufWinEnter,WinEnter <buffer> startinsert!
 
-    " set maps
+            " set maps
 
-    execute "tnoremap <buffer> <C-h> <C-\\><C-n><C-w><C-h>"
+            execute "tnoremap <buffer> <C-h> <C-\\><C-n><C-w><C-h>"
 
-    execute "tnoremap <buffer> <C-t> <C-\\><C-n>:q<CR>"
-    startinsert!
-  endif
+            execute "tnoremap <buffer> <C-t> <C-\\><C-n>:q<CR>"
+            startinsert!
+      endif
 endfunction
 
 nnoremap <C-t> :call OpenTerminal()<CR>
