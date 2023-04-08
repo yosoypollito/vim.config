@@ -11,6 +11,11 @@ set sw=2
 set relativenumber
 set ma
 
+set hlsearch " hightligh matches"
+set incsearch " incremental searching"
+set ignorecase " searches are case insensitive ..."
+set smartcase " ... unless they contain at least one capital letter"
+
 call plug#begin("~/.vim/plugged")
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -48,28 +53,33 @@ let g:jsx_ext_required = 1
 let g:jsx_pragma_required = 1
 let g:solarized_termcolors=256
 
+let g:gruvbox_contrast_dark = "hard"
+
+
 colorscheme gruvbox
 
 let g:lightline = {
-      \ 'active': {
-      \   'left': [ ['mode', 'paste'],
-      \             [ 'readonly', 'modified']],
-      \   'right': [['filename'],
-      \             ['lineinfo', 'BranchIcon', 'gitbranch']]
-      \ },
-      \ 'component':{
-      \ 'BranchIcon':'',
-      \ 'lineinfo': '%3l:%-2v%<',
-      \},
-      \ 'component_function':{
-      \  'gitbranch': 'gitbranch#name'
-      \},
-      \'subseparator':{
-      \'left':'',
-      \'right':''
-      \},
-      \ 'colorscheme': 'gruvbox',
-      \ }
+                  \ 'active': {
+                  \   'left': [ ['mode', 'paste'],[], ['readonly', 'modified']],
+                  \   'right': [['lineinfo','filename'],[],['gitbranch']]
+                  \ },
+                  \ 'component':{
+                  \ 'lineinfo': '%3l:%-2v%<',
+                  \   'charvaluehex': '0x%B'
+                  \},
+                  \ 'component_function':{
+                  \  'gitbranch': 'GitBranch',
+                  \},
+                  \'subseparator':{
+                  \'left':'',
+                  \'right':''
+                  \},
+                  \ 'colorscheme': 'gruvbox',
+                  \ }
+
+function GitBranch()
+      return gitbranch#name() .. " "
+endfunction
 
 set noshowmode " stop showing mode under lightline
 
@@ -82,7 +92,8 @@ autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 let mapleader = " "
 
-" scrolls
+"<leader>c<space> -> comment
+
 nnoremap <silent>J 10<C-e>
 nnoremap <silent>K 10<C-y>
 
