@@ -1,5 +1,7 @@
 {
 	"suggest.noselect": true,
 	"diagnostic.virtualText": true,
-	"diagnostic.virtualTextCurrentLineOnly": false
+	"diagnostic.virtualTextCurrentLineOnly": false,
+	"eslint.autoFixOnSave":true,
+	"eslint.format.enable": true
 }
