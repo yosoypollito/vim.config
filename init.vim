@@ -22,10 +22,12 @@ set termguicolors " needed for colorizer codes
 
 call plug#begin("~/.vim/plugged")
 
-Plug 'dense-analysis/ale' " ale linter
-Plug 'maximbaz/lightline-ale' " Ale lightline bar status
+" pretierr
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install --frozen-lockfile --production',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', { 'branch': 'master', 'do': 'yarn install --frozen-lockfile' }
 Plug 'norcalli/nvim-colorizer.lua' " Colorizer codes
 
 Plug 'easymotion/vim-easymotion' " Easy movement
@@ -46,9 +48,6 @@ Plug 'sheerun/vim-polyglot' " Vim polyglot sintax for all language
 
 Plug 'morhetz/gruvbox' " Theme gruvbox
 Plug 'shinchu/lightline-gruvbox.vim' " Theme gruvbox lightline
-
-"AutoComplete Tailwind
-Plug 'iamcco/coc-tailwindcss',  {'do': 'yarn install --frozen-lockfile && yarn run build'}
 
 "comenter
 Plug 'preservim/nerdcommenter'
@@ -74,7 +73,7 @@ colorscheme gruvbox
 
 let g:lightline = {
                   \ 'active': {
-                  \   'left': [ [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ],['mode', 'paste'],[], ['readonly', 'modified']],
+                  \   'left': [ ['mode', 'paste'],[], ['readonly', 'modified']],
                   \   'right': [ ['lineinfo','filename'],[],['gitbranch']]
                   \ },
                   \ 'component':{
@@ -90,38 +89,6 @@ let g:lightline = {
                   \},
                   \ 'colorscheme': 'gruvbox',
                   \ }
-
-let g:lightline.component_expand = {
-                  \  'linter_checking': 'lightline#ale#checking',
-                  \  'linter_infos': 'lightline#ale#infos',
-                  \  'linter_warnings': 'lightline#ale#warnings',
-                  \  'linter_errors': 'lightline#ale#errors',
-                  \  'linter_ok': 'lightline#ale#ok',
-                  \ }
-
-let g:lightline.component_type = {
-                  \     'linter_checking': 'right',
-                  \     'linter_infos': 'right',
-                  \     'linter_warnings': 'warning',
-                  \     'linter_errors': 'error',
-                  \     'linter_ok': 'right',
-                  \ }
-" ALE config icons, lightline etc... 
-let g:lightline#ale#indicator_checking = "\uf110 "
-let g:lightline#ale#indicator_infos = "\uf129 "
-let g:lightline#ale#indicator_warnings = "\uf071 "
-let g:lightline#ale#indicator_errors = "\uf05e "
-let g:lightline#ale#indicator_ok = "\uf00c "
-
-let g:ale_lint_on_save = 1
-let g:ale_fix_on_save = 1
-
-let g:ale_linters = {
-                  \   'javascript': ['standard'],
-                  \}
-let g:ale_fixers = {'javascript': ['standard']}
-
-
 
 
 function GitBranch()
@@ -182,7 +149,6 @@ noremap <C-w>- :resize -5<CR>
 noremap <C-w>< :vertical:resize -5<CR>
 noremap <C-w>> :vertical:resize +5<CR>
 
-
 set splitright
 set shellcmdflag=-c
 "Open terminal
@@ -221,3 +187,4 @@ function! OpenTerminal()
 endfunction
 
 nnoremap <C-t> :call OpenTerminal()<CR>
+

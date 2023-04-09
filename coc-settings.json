@@ -2,5 +2,8 @@
 	"suggest.noselect": true,
 	"diagnostic.virtualText": true,
 	"diagnostic.virtualTextCurrentLineOnly": false,
-	"diagnostic.displayByAle": true
+	"eslint.format.enable": true,
+	"eslint.autoFixOnSave": true,
+	"eslint.probe": ["javascript","javascriptreact"],
+	"tslint.autoFixOnSave": true
 }
