@@ -11,6 +11,8 @@ set sw=2
 set relativenumber
 set ma
 
+set cursorline " background for current line
+
 set hlsearch " hightligh matches"
 set incsearch " incremental searching"
 set ignorecase " searches are case insensitive ..."
