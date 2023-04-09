@@ -18,17 +18,20 @@ set incsearch " incremental searching"
 set ignorecase " searches are case insensitive ..."
 set smartcase " ... unless they contain at least one capital letter"
 
+set termguicolors " needed for colorizer codes
+
 call plug#begin("~/.vim/plugged")
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'eslint/eslint'
+Plug 'norcalli/nvim-colorizer.lua' " Colorizer codes
+
 Plug 'easymotion/vim-easymotion' " Easy movement
-" Plug 'scrooloose/nerdtree' " Explorer
+
 Plug 'nvim-tree/nvim-tree.lua' " New explorer
 Plug 'nvim-tree/nvim-web-devicons' " Icons tree
 
 Plug 'christoomey/vim-tmux-navigator' " Can move through tabs
-Plug 'itchyny/lightline.vim' " Statur bar 
+Plug 'itchyny/lightline.vim' " Statur bar
 Plug 'itchyny/vim-gitbranch' " lightline Branch status
 Plug 'maxmellon/vim-jsx-pretty' " pretty jsx
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " Styled components HL
@@ -47,9 +50,16 @@ Plug 'iamcco/coc-tailwindcss',  {'do': 'yarn install --frozen-lockfile && yarn r
 "comenter
 Plug 'preservim/nerdcommenter'
 
+" indent vertical line
+Plug 'Yggdroot/indentLine'
+
 call plug#end()
 
+" Indent icon vertical line
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+
 lua require("configs.nvim-tree")
+lua require'colorizer'.setup()
 
 let g:jsx_ext_required = 1
 let g:jsx_pragma_required = 1
@@ -127,13 +137,7 @@ function! CheckBackspace() abort
       return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-let g:python3_host_prog = 'D:\Programas windows\Python3.10\'
+let g:python3_host_prog = 'D:/Programas/Python3.11/python'
 
 " for comment
 filetype plugin on
