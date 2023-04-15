@@ -1,9 +1,18 @@
 {
-	"suggest.noselect": true,
-	"diagnostic.virtualText": true,
-	"diagnostic.virtualTextCurrentLineOnly": false,
-	"eslint.format.enable": true,
-	"eslint.autoFixOnSave": true,
-	"eslint.probe": ["javascript","javascriptreact"],
-	"tslint.autoFixOnSave": true
+  "suggest.noselect": true,
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
+  "eslint.format.enable": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "vue",
+    "markdown"
+  ],
+  "coc.preferences.formatOnSave": true,
+  "typescript.autoClosingTags": false
 }
