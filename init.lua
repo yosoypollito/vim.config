@@ -27,7 +27,7 @@ require("lazy").setup({
         -- Status Line
         'nvim-lualine/lualine.nvim',
         --Syntax
-        'sheerun/vim-polyglot',
+         'sheerun/vim-polyglot',
         -- Top Line bar
         {
             "utilyre/barbecue.nvim",
@@ -111,11 +111,12 @@ require('nvim-autopairs').setup({
         disable_filetype = { "TelescopePrompt" , "vim" },
     })
 
-require'nvim-treesitter.configs'.setup {
-  autotag = {
-    enable = true,
-  }
-}
+require('nvim-treesitter.configs').setup({
+        ensure_installed = { "c", "cpp", "typescript", "javascript", "tsx" },
+        autotag = {
+            enable = true,
+        }
+    })
 
 --Vim config
 vim.cmd('source ~/AppData/Local/nvim/config.vim')

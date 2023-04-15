@@ -11,6 +11,9 @@ set sw=2
 set relativenumber
 set ma
 
+set nobackup
+set nowritebackup
+
 set cursorline " background for current line
 
 set hlsearch " hightligh matches"
