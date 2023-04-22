@@ -16,7 +16,15 @@ vim.opt.shell = "cmd.exe"
 
 require("lazy").setup({
         -- Codeium
-        'Exafunction/codeium.vim',
+        { 'Exafunction/codeium.vim',
+            config = function ()
+                -- Change '<C-g>' here to any keycode you like.
+                vim.keymap.set('i', '<S-Tab>', function () return vim.fn['codeium#Accept']() end, { expr = true })
+                vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
+                vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
+                vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
+            end
+        },
         --Markdown previewer
         'iamcco/markdown-preview.nvim',
         --Splits animation size
@@ -81,6 +89,8 @@ require("lazy").setup({
         "napmn/react-extract.nvim",
     })
 -- Configs --
+-- disable codeium default binding
+vim.g.codeium_disable_bindings = 1
 
 require('telescope').setup({
         pickers = {
