@@ -22,6 +22,12 @@ set ignorecase " searches are case insensitive ..."
 set smartcase " ... unless they contain at least one capital letter"
 
 set termguicolors " needed for colorizer codes
+" Dont auto comment new line
+autocmd BufNewFile,BufRead * setlocal formatoptions-=ro
+
+" neoformat (prettier)
+autocmd BufWritePre *.{js,jsx,ts,tsx} Neoformat prettier
+
 
 " Styled components config for big files (testing)
 

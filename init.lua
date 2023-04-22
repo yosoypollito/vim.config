@@ -15,10 +15,14 @@ vim.opt.rtp:prepend(lazypath)
 vim.opt.shell = "cmd.exe"
 
 require("lazy").setup({
+        -- Codeium
+        'Exafunction/codeium.vim',
+        --Markdown previewer
+        'iamcco/markdown-preview.nvim',
         --Splits animation size
         'beauwilliams/focus.nvim',
         -- Theme
-{ "ellisonleao/gruvbox.nvim", priority = 1000 },
+        { "ellisonleao/gruvbox.nvim", priority = 1000 },
         -- Colorizer
         "NvChad/nvim-colorizer.lua",
         -- Files tree
@@ -71,7 +75,10 @@ require("lazy").setup({
         'hrsh7th/cmp-nvim-lsp', -- LSP source for nvim-cmp
         'saadparwaiz1/cmp_luasnip', -- Snippets source for nvim-cmp
         'L3MON4D3/LuaSnip', -- Snippets plugin
-
+        -- Prettier
+        'sbdchd/neoformat',
+        -- React refactor
+        "napmn/react-extract.nvim",
     })
 -- Configs --
 
@@ -91,7 +98,6 @@ require('telescope').setup({
     })
 
 -- Inits --
-
 vim.g.gruvbox_contrast_dark = "hard"
 vim.cmd('colorscheme gruvbox')
 
@@ -126,9 +132,24 @@ require('nvim-treesitter.configs').setup({
         }
     })
 
+require("react-extract").setup()
+
 --Vim config
 vim.cmd('source ~/AppData/Local/nvim/config.vim')
 
+--THEME
+vim.o.background = "dark" -- or "light" for light mode
+require("gruvbox").setup({
+        italic = {
+            strings = false,
+            comments = false,
+            operators = false,
+            folds = false,
+        },
+    })
+vim.cmd([[colorscheme gruvbox]])
+
+-- LSP CONFIGURATION
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
@@ -136,13 +157,24 @@ local lspconfig = require('lspconfig')
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 -- If you want to add a lsp server just search https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md what you need and put the string name of lsp server
-local servers = { 'tsserver', 'tailwindcss'}
+local servers = { 'tsserver', 'tailwindcss', 'jsonls'}
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         -- on_attach = my_custom_on_attach,
         capabilities = capabilities,
     }
 end
+
+-- Especific eslint configuration needed for https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#eslint
+lspconfig.eslint.setup({
+        --- ...
+        on_attach = function(client, bufnr)
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                    buffer = bufnr,
+                    command = "EslintFixAll",
+                })
+        end,
+    })
 
 -- luasnip setup
 local luasnip = require 'luasnip'
@@ -188,15 +220,3 @@ cmp.setup {
       { name = 'luasnip' },
   },
 }
-
--- Color for nvim_cmp
-vim.o.background = "dark" -- or "light" for light mode
-require("gruvbox").setup({
-  italic = {
-    strings = false,
-    comments = false,
-    operators = false,
-    folds = false,
-  },
-})
-vim.cmd([[colorscheme gruvbox]])
